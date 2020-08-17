@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart</title>
+    <style>
+      #canvas {
+        display: block;
+        background-color: #a7a1a1;
+        margin: 0 auto;
+        outline: 2px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="canvas" width="1000" height="600"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+
+      const buildCircle = function (x, y) {
+        context.fillStyle = "white";
+        context.strokeStyle = "black";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.arc(x, y, 5, 0, Math.PI * 2, false);
+        context.stroke();
+        context.fill();
+      };
+      const buildLine = function (x1, y1, x2, y2) {
+        context.strokeStyle = "black";
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
+      };
+      class Chart {
+        constructor(
+          x1,
+          x2,
+          x3,
+          x4,
+          x5,
+          x6,
+          x7,
+          x8,
+          y1,
+          y2,
+          y3,
+          y4,
+          y5,
+          y6,
+          y7,
+          y8
+        ) {
+          this.trans = 0;
+          this.x1 = x1;
+          this.y1 = y1;
+          this.x2 = x2;
+          this.y2 = y2;
+          this.x3 = x3;
+          this.y3 = y3;
+          this.x4 = x4;
+          this.y4 = y4;
+          this.x5 = x5;
+          this.y5 = y5;
+          this.x6 = x6;
+          this.y6 = y6;
+          this.x7 = x7;
+          this.y7 = y7;
+          this.x8 = x8;
+          this.y8 = y8;
+        }
+        draw() {
+          buildLine(
+            this.x1,
+            this.y1,
+            this.x2 + 1.5 * this.trans,
+            this.y2 + 0.5 * this.trans
+          );
+          buildLine(
+            this.x2 + 1.5 * this.trans,
+            this.y2 + 0.5 * this.trans,
+            this.x3 - 0.5 * this.trans,
+            this.y3 - 0.5 * this.trans
+          );
+          buildLine(
+            this.x3 - 0.5 * this.trans,
+            this.y3 - 0.5 * this.trans,
+            this.x4 + this.trans,
+            this.y4 - 2 * this.trans
+          );
+          buildLine(
+            this.x4 + this.trans,
+            this.y4 - 2 * this.trans,
+            this.x5 - this.trans,
+            this.y5
+          );
+          buildLine(
+            this.x5 - this.trans,
+            this.y5,
+            this.x6 + 0.5 * this.trans,
+            this.y6
+          );
+          buildLine(
+            this.x6 + 0.5 * this.trans,
+            this.y6,
+            this.x7 - 1.5 * this.trans,
+            this.y7 + 2 * this.trans
+          );
+          buildLine(
+            this.x7 - 1.5 * this.trans,
+            this.y7 + 2 * this.trans,
+            this.x8,
+            this.y8 - this.trans
+          );
+
+          buildCircle(this.x1, this.y1);
+          buildCircle(this.x2 + 1.5 * this.trans, this.y2 + 0.5 * this.trans);
+          buildCircle(this.x3 - 0.5 * this.trans, this.y3 - 0.5 * this.trans);
+          buildCircle(this.x4 + this.trans, this.y4 - 2 * this.trans);
+          buildCircle(this.x5 - this.trans, this.y5);
+          buildCircle(this.x6 + 0.5 * this.trans, this.y6);
+          buildCircle(this.x7 - 1.5 * this.trans, this.y7 + 2 * this.trans);
+          buildCircle(this.x8, this.y8 - this.trans);
+        }
+        move(trans) {
+          this.trans += trans;
+        }
+      }
+      const chart = new Chart(
+        5,
+        105,
+        205,
+        305,
+        405,
+        505,
+        605,
+        705,
+        200,
+        350,
+        400,
+        300,
+        200,
+        250,
+        150,
+        200
+      );
+
+      let trans = 0;
+      let count = 1;
+
+      function start() {
+        context.clearRect(0, 0, width, height);
+        chart.draw();
+        chart.move(trans);
+        if (chart.trans > 50) {
+          chart.trans = 50;
+        } else if (chart.trans < 0) {
+          chart.trans = 0;
+        }
+      }
+      const timerId = setInterval(start, 30);
+
+      canvas.addEventListener("click", () => {
+        trans = 2;
+        count += 1;
+        if (count % 2 !== 0) {
+          trans = -2;
+        }
+      });
+    </script>
+  </body>
+</html>
